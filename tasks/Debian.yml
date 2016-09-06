@@ -24,6 +24,13 @@
     mode: 0644
   register: copy_config
 
+- name: Setup symlink for mail command so evasive can notify us
+  sudo: yes
+  file:
+    src: /usr/bin/mail
+    dest: /bin/mail
+    state: link
+
 - name: Enable the module (if needed)
   sudo: yes
   shell: "a2enmod evasive.load"
