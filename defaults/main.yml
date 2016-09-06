@@ -2,10 +2,10 @@
 mod_evasive_packages:
   - libapache2-mod-evasive
 apache_user: "www-data"
+mod_evasive_email_notify: "admin@example.com"
 
 # Sensible defaults
 mod_evasive_log_dir: "/var/log/mod_evasive"
-mod_evasive_email_notify: "admin@example.com"
 mod_evasive_conf:
   hash_table_size: 3097
   page_count: 2
