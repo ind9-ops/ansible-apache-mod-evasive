@@ -1,0 +1,8 @@
+# test file for apache role
+---
+- hosts: localhost
+  connection: local
+  sudo: true
+  roles:
+    - ../../
+

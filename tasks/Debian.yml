@@ -1,0 +1,37 @@
+---
+- name: Install the packages for mod_evasive
+  sudo: yes
+  apt:
+    pkg: "{{item}}"
+    state: installed
+    update_cache: yes
+    cache_valid_time: 36000
+  with_items: "{{mod_evasive_packages}}"
+
+- name: Create a log dir for mod_evasive
+  sudo: yes
+  file:
+    name: "{{mod_evasive_log_dir}}"
+    owner: "{{apache_user}}"
+    state: directory
+    mode: "0755"
+
+- name: Copy mod_evasive configuration
+  sudo: yes
+  template:
+    src: evasive.conf.j2
+    dest: /etc/apache2/mods-available/evasive.conf
+    mode: 0644
+
+- name: Enable the module (if needed)
+  sudo: yes
+  shell: "a2enmod evasive.load"
+  register: enable_mod
+  changed_when: enable_mod.stdout.find('Enabling module evasive') != -1
+
+- name: Restart apache2 process
+  sudo: yes
+  service:
+    name: apache2
+    state: restarted
+    enabled: yes
